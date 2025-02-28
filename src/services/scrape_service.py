@@ -30,23 +30,6 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
     connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
 
-    cursor.execute(
-        """
-            CREATE TABLE IF NOT EXISTS 
-                jobs 
-                    (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        external_id TEXT UNIQUE,
-                        description TEXT,
-                        posted_time DATETIME,
-                        rating INTEGER,
-                        applied BOOLEAN NOT NULL DEFAULT 0,
-                        suggestions TEXT
-                    )
-        """
-    )
-    connection.commit()
-
     search_url = (
         "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
     )
