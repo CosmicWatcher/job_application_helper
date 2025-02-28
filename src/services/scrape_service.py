@@ -108,10 +108,16 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                 res = requests.get(job_url.format(job_id))
 
             soup = BeautifulSoup(res.text, "html.parser")
-            description = soup.find(
+            description_div = soup.find(
                 "div",
                 class_="show-more-less-html__markup show-more-less-html__markup--clamp-after-5 relative overflow-hidden",
-            ).get_text(strip=True)
+            )
+            # Get the inner HTML content without the outer div
+            description = (
+                "".join(str(content) for content in description_div.contents)
+                if description_div
+                else ""
+            )
             time_ago = soup.find("span", class_="posted-time-ago__text").get_text(
                 strip=True
             )

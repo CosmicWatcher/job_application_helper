@@ -79,7 +79,7 @@
               Rating: {{ job['rating'] if job['rating'] is not none else "Not
               rated" }}
             </h3>
-            <p class="description">{{ job['description'] }}</p>
+            <div class="description">{{ job['description']|safe }}</div>
           </div>
           <div class="job-suggestions" style="display: none">
             <h4>Suggestions</h4>
