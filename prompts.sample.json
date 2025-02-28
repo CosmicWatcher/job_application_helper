@@ -1,0 +1,7 @@
+{
+  "tasks": {
+    "rating": "given my resume and work experience and a new job description, evaluate how good of a match I am for that job and output a rating from 1(no match) to 100(perfect match) to quantify the match. only show me the final rating number.",
+    "suggestions": "given my resume and work experience and a new job description, output a list of 6 suggestions for how to improve my resume to stand out for the job. it's often a good idea to slightly rephrase sentences mentioned in the job description that match my skills and experience and use that to put on my resume. your suggestions could be rewordings of what I already have on my resume or new sentences. follow STAR, XYZ, or CAR methods when writing the suggestion. Don't use personal pronouns. Don't end bullet points with periods. Each suggestion should begin with a strong, past-tense action verb. only show me the best 6 suggestions. each suggestion should start on a new line and have \\item at the beginning of the line. the final output must only contain the 6 suggestions, no other text."
+  },
+  "resume": ""
+}

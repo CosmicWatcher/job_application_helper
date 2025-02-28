@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Application Helper</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/home.css') }}"
+    />
+  </head>
+  <body>
+    {% with active_page = 'home' %} {% include 'header.html' %} {% endwith %}
+
+    <div class="container">
+      <div class="hero">
+        <h1>Welcome to Job Application Assistant</h1>
+        <p>
+          Your AI-powered tool for finding and applying to the best job
+          opportunities
+        </p>
+      </div>
+
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h2>Job Scraper</h2>
+          <p>
+            Scrape job listings from LinkedIn based on your preferred location,
+            time period, and keywords.
+          </p>
+          <a href="/scrape" class="feature-button">Start Scraping</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h2>Job Listings</h2>
+          <p>
+            View all scraped jobs with AI-generated ratings and tailored bullet
+            points for your resume.
+          </p>
+          <a href="/jobs" class="feature-button">View Jobs</a>
+        </div>
+      </div>
+
+      <div class="how-it-works">
+        <h2>How It Works</h2>
+        <ol>
+          <li>
+            <strong>Scrape Jobs:</strong> Use the scraper to find relevant job
+            listings based on your criteria.
+          </li>
+          <li>
+            <strong>AI Analysis:</strong> Our AI analyzes each job and rates it
+            based on your resume and skills.
+          </li>
+          <li>
+            <strong>Get Suggestions:</strong> Receive tailored suggestions to
+            improve your resume for each job.
+          </li>
+          <li>
+            <strong>Apply:</strong> Apply to the jobs directly on LinkedIn and
+            track your applications.
+          </li>
+        </ol>
+      </div>
+    </div>
+  </body>
+</html>

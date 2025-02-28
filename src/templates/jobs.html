@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Job Listings</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/jobs.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/resume-editor.css') }}"
+    />
+    <script src="{{ url_for('static', filename='js/jobs.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/resume-editor.js') }}"></script>
+  </head>
+  <body>
+    {% with active_page = 'jobs' %} {% include 'header.html' %} {% endwith %}
+
+    <div class="container">
+      <h1>Job Listings</h1>
+
+      <!-- Resume Editor Modal Dialog -->
+      <div id="resume-editor-modal" class="modal">
+        <div class="modal-content">
+          <div class="close-container">
+            <span class="close">&times;</span>
+          </div>
+          <h1 style="margin-bottom: 0px">Resume Experience Editor</h1>
+          <p>
+            Select the job experience items you want to include in your resume.
+            You can also drag suggestions into job sections.
+          </p>
+
+          <div class="editor-container">
+            <div class="job-sections-container" id="resume-jobs-container">
+              <!-- Job sections will be loaded here via AJAX -->
+              <div class="loading">Loading resume data...</div>
+            </div>
+
+            <div class="suggestions-container" id="suggestions-container">
+              <h1>Suggestions</h1>
+              <div class="loading">Loading suggestions...</div>
+            </div>
+          </div>
+
+          <div class="button-container">
+            <button type="button" id="generate-btn">Generate Resume PDF</button>
+          </div>
+
+          <div id="status-message"></div>
+        </div>
+      </div>
+
+      {% for job in jobs %}
+      <div
+        id="job-{{ job['id'] }}"
+        class="job {% if job['applied'] %}applied{% endif %}"
+      >
+        <div class="job-actions">
+          <button class="edit-resume-btn" data-job-id="{{ job.id }}">
+            Edit Resume
+          </button>
+          <a
+            href="javascript:void(0);"
+            onclick="viewOnLinkedIn('{{ job.id }}', '{{ job.external_id }}')"
+            class="linkedin-link"
+          >
+            View on LinkedIn
+          </a>
+        </div>
+        <div class="job-content">
+          <div class="job-main">
+            <h5 class="id">ID: {{ job['id'] }}</h5>
+            <h3 class="rating">
+              Rating: {{ job['rating'] if job['rating'] is not none else "Not
+              rated" }}
+            </h3>
+            <p class="description">{{ job['description'] }}</p>
+          </div>
+          <div class="job-suggestions" style="display: none">
+            <h4>Suggestions</h4>
+            <p>{{ job['suggestions'] }}</p>
+          </div>
+        </div>
+        <span class="applied-tag">Applied</span>
+      </div>
+      {% endfor %}
+
+      <!-- Application Confirmation Dialog -->
+      <div id="application-dialog" class="modal">
+        <div class="modal-content application-dialog-content">
+          <h2>Did you apply to this job?</h2>
+          <p>Please confirm if you applied to this job on LinkedIn.</p>
+          <div class="button-container">
+            <button id="applied-yes-btn" class="btn-primary">
+              Yes, I applied
+            </button>
+            <button id="applied-no-btn" class="btn-secondary">
+              No, just viewing
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

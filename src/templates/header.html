@@ -1,0 +1,33 @@
+<!-- Navigation Header -->
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo">
+      <a href="/"><h1>Job Application Helper</h1></a>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li>
+          <a
+            href="/"
+            class="nav-button {% if active_page == 'home' %}active{% endif %}"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            href="/scrape"
+            class="nav-button {% if active_page == 'scrape' %}active{% endif %}"
+            >Scraper</a
+          >
+        </li>
+        <li>
+          <a
+            href="/jobs"
+            class="nav-button {% if active_page == 'jobs' %}active{% endif %}"
+            >Job Listings</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

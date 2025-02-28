@@ -1,0 +1,9 @@
+.venv/
+.vscode/
+__pycache__/
+models/
+resume/tmp*
+resume/resume.tex
+resume.pdf
+.env
+prompts.json

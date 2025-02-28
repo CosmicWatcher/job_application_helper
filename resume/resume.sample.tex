@@ -1,0 +1,103 @@
+\documentclass[11pt]{article}       % set main text size
+\usepackage[letterpaper,                % set paper size to A4. change to letterpaper for US/Canadian resumes
+top=0.5in,                          % specify top page margin
+bottom=0.5in,                       % specify bottom page margin
+left=0.5in,                         % specify left page margin
+right=0.5in]{geometry}              % specify right page margin
+
+\usepackage{XCharter}               % set font
+\usepackage[T1]{fontenc}            % output encoding
+\usepackage[utf8]{inputenc}         % input encoding
+\usepackage{enumitem}               % enable lists for bullet points: itemize and \item
+\usepackage[dvipsnames]{xcolor}     % enable extra set of color names
+\usepackage[colorlinks=true,
+            urlcolor=BlueViolet]{hyperref}    % format hyperlinks
+\usepackage{titlesec}               % enable section title customization
+\raggedright                        % disable text justification
+\pagestyle{empty}                   % disable page numbering
+
+% ensure PDF output will be all-Unicode and machine-readable
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+% format section headings: bolding, size, white space above and below
+\titleformat{\section}{\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule\vspace{-6.5pt}]
+
+% format bullet points: size, white space above and below, white space between bullets
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+\setlist[itemize]{itemsep=-2pt, leftmargin=12pt}
+
+% resume starts here
+\begin{document}
+	
+	% name
+	\centerline{\Huge FirstName LastName}
+	
+	\vspace{5pt}
+	
+	% contact information
+	\centerline{
+		\href{mailto:example@gmail.com}{example@gmail.com}
+		\hspace{2em}
+		xxx-xxx-xxxx
+%		\hspace{3em}
+%		\href{https://www.linkedin.com/in/}{linkedin.com/in}
+	}
+	
+	\vspace{-25pt}
+	
+	\section*{}
+	Professional Summary
+
+	\vspace{-6.5pt}
+	
+	\def\java{0}
+	
+	% skills section
+	\section*{Skills}
+	\textbf{Languages:}
+	JavaScript/TypeScript (React, Node.js),
+	Python,
+%	WebGL, OpenGL,
+	HTML,
+	CSS (Tailwind),
+	SQL
+	\\
+	\textbf{Cloud:} AWS (S3, EC2, ELB, RDS, ElastiCache, Lambda, SQS, CloudWatch)  \\
+	\textbf{Databases and Tools:} PostgreSQL, Redis, Git, Vite, Docker, Nginx/Apache
+	
+	\vspace{-6.5pt}
+	
+	% experience section
+	\section*{Experience}
+	\textbf{Role Title,} \href{https://company.com}{Company Name} -- City, Province \hfill Start Date -- End Date \\
+	\vspace{-9pt}
+	\begin{itemize}
+		\item Bullet Point 1
+		\item Bullet Point 2
+		\item Bullet Point 3
+	\end{itemize}
+
+	\textbf{Role Title,} \href{https://company.com}{Company Name} -- City, Province \hfill Start Date -- End Date \\
+	\vspace{-9pt}
+	\begin{itemize}
+		\item Bullet Point 1
+		\item Bullet Point 2
+		\item Bullet Point 3
+	\end{itemize}
+	
+	\textbf{Role Title,} \href{https://company.com}{Company Name} -- City, Province \hfill Start Date -- End Date \\
+	\vspace{-9pt}
+	\begin{itemize}
+		\item Bullet Point 1
+		\item Bullet Point 2
+		\item Bullet Point 3
+	\end{itemize}
+	
+	\vspace{-18.5pt}
+	
+	% education section
+	\section*{Education}
+	\textbf{\href{https://university.com}{University Name}} -- Degree \hfill End Date \\
+	
+\end{document}
