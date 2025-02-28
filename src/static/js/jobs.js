@@ -17,6 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
       applicationDialog.style.display = "none";
     });
 
+    // Add event listeners for reject buttons
+    document.querySelectorAll(".reject-job-btn").forEach((button) => {
+      button.addEventListener("click", function () {
+        const jobId = this.getAttribute("data-job-id");
+        rejectJob(jobId);
+      });
+    });
+
     noButton.addEventListener("click", function () {
       // Just close the dialog
       applicationDialog.style.display = "none";
@@ -85,6 +93,41 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => {
         console.error(
           `${new Date().toLocaleString()} - Error marking job ${jobId} as applied:`,
+          error,
+        );
+      });
+  };
+
+  // Function to reject a job
+  window.rejectJob = function (jobId) {
+    // Get the job element
+    const jobElement = document.getElementById(`job-${jobId}`);
+
+    // Add the rejected class to the job element
+    if (jobElement) {
+      jobElement.classList.add("rejected");
+    }
+
+    // Send the request to mark the job as rejected
+    fetch(`/reject_job/${jobId}`, {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          console.log(
+            `${new Date().toLocaleString()} - Job ${jobId} marked as rejected`,
+          );
+        } else {
+          console.error(
+            `${new Date().toLocaleString()} - Error marking job ${jobId} as rejected:`,
+            data.error,
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(
+          `${new Date().toLocaleString()} - Error marking job ${jobId} as rejected:`,
           error,
         );
       });

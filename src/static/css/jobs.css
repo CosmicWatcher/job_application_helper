@@ -16,7 +16,14 @@
   opacity: 0.7;
 }
 
-.job.applied .description {
+.job.rejected {
+  padding: 5px 15px;
+  background-color: #ffeeee;
+  opacity: 0.7;
+}
+
+.job.applied .description,
+.job.rejected .description {
   display: none;
 }
 
@@ -38,8 +45,8 @@
 }
 
 .edit-resume-btn {
-  background-color: #bca300 !important;
-  color: rgb(67, 42, 0) !important;
+  background-color: #b2a133 !important;
+  color: white !important;
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
@@ -53,6 +60,21 @@
   background-color: #b09300 !important;
 }
 
+.reject-job-btn {
+  background-color: #9d352a !important;
+  color: white !important;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.reject-job-btn:hover {
+  background-color: #c0392b !important;
+}
+
 .applied-tag {
   display: none;
   color: #666;
@@ -60,7 +82,18 @@
   margin-top: 10px;
 }
 
+.rejected-tag {
+  display: none;
+  color: #e74c3c;
+  font-style: italic;
+  margin-top: 10px;
+}
+
 .job.applied .applied-tag {
+  display: inline;
+}
+
+.job.rejected .rejected-tag {
   display: inline;
 }
 
@@ -117,7 +150,15 @@
   display: none;
 }
 
+.job.rejected .job-content {
+  display: none;
+}
+
 .job.applied .job-actions {
+  display: none;
+}
+
+.job.rejected .job-actions {
   display: none;
 }
 

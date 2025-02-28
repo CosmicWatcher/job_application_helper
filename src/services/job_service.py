@@ -143,6 +143,7 @@ def get_job_list():
                     AND posted_time > ?
                     AND applied = 0
                     AND suggestions IS NOT NULL
+                    AND rating > 0
                 ORDER BY rating DESC
         """,
         (datetime.now() - timedelta(days=4),),  # 4 days ago
@@ -154,3 +155,17 @@ def get_job_list():
     conn.close()
 
     return jobs
+
+
+def set_rating(job_id, rating):
+    # Connect to database
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Update job rating
+    cursor.execute("UPDATE jobs SET rating = ? WHERE id = ?", (rating, job_id))
+    conn.commit()
+
+    # Close connection
+    cursor.close()
+    conn.close()

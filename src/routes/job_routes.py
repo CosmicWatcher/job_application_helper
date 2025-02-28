@@ -24,6 +24,22 @@ def mark_job_applied(job_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+@job_bp.route("/reject_job/<int:job_id>", methods=["POST"])
+def reject_job(job_id):
+    try:
+        job_service.set_rating(job_id, 0)
+
+        print(
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Marked job {job_id} as rejected"
+        )
+        return jsonify({"success": True})
+    except Exception as e:
+        print(
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error rejecting job {job_id}: {str(e)}"
+        )
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 @job_bp.route("/jobs")
 def show_jobs():
     try:

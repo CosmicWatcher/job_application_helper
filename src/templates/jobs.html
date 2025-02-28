@@ -61,6 +61,9 @@
         class="job {% if job['applied'] %}applied{% endif %}"
       >
         <div class="job-actions">
+          <button class="reject-job-btn" data-job-id="{{ job.id }}">
+            Reject Job
+          </button>
           <button class="edit-resume-btn" data-job-id="{{ job.id }}">
             Edit Resume
           </button>
@@ -87,6 +90,7 @@
           </div>
         </div>
         <span class="applied-tag">Applied</span>
+        <span class="rejected-tag">Rejected</span>
       </div>
       {% endfor %}
 
