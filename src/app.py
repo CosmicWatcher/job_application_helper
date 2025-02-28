@@ -1,5 +1,15 @@
 import os
+import sys
 from datetime import datetime
+
+# Parse command line arguments
+if "--test" in sys.argv:
+    os.environ["MODE"] = "TEST"
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Running in test mode")
+else:
+    os.environ["MODE"] = "DEV"
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Running in dev mode")
+
 import sqlite3
 
 from dotenv import load_dotenv
