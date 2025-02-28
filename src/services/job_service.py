@@ -141,10 +141,11 @@ def get_job_list():
                 WHERE 
                     rating IS NOT NULL
                     AND posted_time > ?
-                    AND applied = 0 
+                    AND applied = 0
+                    AND suggestions IS NOT NULL
                 ORDER BY rating DESC
         """,
-        (datetime.now() - timedelta(days=14),),  # 4
+        (datetime.now() - timedelta(days=4),),  # 4 days ago
     )
     jobs = cursor.fetchall()
 
