@@ -1,4 +1,3 @@
-import sqlite3
 import time
 from datetime import datetime, timedelta
 from re import search
@@ -6,7 +5,7 @@ from re import search
 import requests
 from bs4 import BeautifulSoup
 
-from config import DB_PATH
+from services.database_service import Database
 
 
 def scrape_jobs(time_period, location, keywords, scraping_status=None):
@@ -27,8 +26,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
 
     url_params["keywords"] = requests.utils.quote(keywords)
 
-    connection = sqlite3.connect(DB_PATH)
-    cursor = connection.cursor()
+    db = Database()
 
     search_url = (
         "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
@@ -38,7 +36,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
     list_url = f"{search_url}?{query_params[1:]}"  # Remove leading & from first param
 
     jobs = []
-    for i in range(0, 100):
+    for i in range(0, 1):
         # Check if scraping should be stopped
         if scraping_status and scraping_status.get("stop_scraping"):
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -141,11 +139,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                     posted_time = current_time - timedelta(days=num)
 
             if posted_time:
-                cursor.execute(
-                    "INSERT INTO jobs (external_id, description, posted_time) VALUES (?, ?, ?)",
-                    (job_id, description, posted_time),
-                )
-                connection.commit()
+                db.insert_job(job_id, description, posted_time)
                 jobs_scraped_count += 1
 
                 # Update the scraping status if provided
@@ -166,9 +160,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"{current_time} - Error inserting job {job_id}: {e}")
 
-    connection.commit()
-    cursor.close()
-    connection.close()
+    # Database connection is closed in the Database class destructor
 
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if scraping_status and scraping_status.get("stop_scraping"):

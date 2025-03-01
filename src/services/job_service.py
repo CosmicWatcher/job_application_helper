@@ -1,11 +1,11 @@
 import json
 import os
-import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from google import genai
 
-from config import DB_PATH, PROMPT_PATH
+from config import PROMPT_PATH
+from services.database_service import Database
 from services.llm_service import get_rating, get_suggestions
 
 
@@ -24,12 +24,9 @@ def analyze_jobs(scraping_status=None):
     ai_client = genai.Client(
         api_key=os.getenv("GEMINI_API_KEY"), http_options={"api_version": "v1alpha"}
     )
-    connection = sqlite3.connect(DB_PATH)
-    connection.row_factory = sqlite3.Row  # enable row access by column name
-    cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM jobs WHERE rating IS NULL")
-    jobs = cursor.fetchall()
+    db = Database()
+    jobs = db.get_unrated_jobs()
 
     total_jobs_to_analyze = len(jobs)
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -58,7 +55,7 @@ def analyze_jobs(scraping_status=None):
             rating = get_rating(ai_client, rating_instruct, description)
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"{current_time} - Rating job {id}: {rating}")
-            cursor.execute("UPDATE jobs SET rating = ? WHERE id = ?", (rating, id))
+            db.update_job_rating(id, rating)
 
             if rating >= 60 and job["suggestions"] is None:
                 suggestions = get_suggestions(
@@ -66,11 +63,7 @@ def analyze_jobs(scraping_status=None):
                 )
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 print(f"{current_time} - Got suggestions for job {id}")
-                cursor.execute(
-                    "UPDATE jobs SET suggestions = ? WHERE id = ?", (suggestions, id)
-                )
-
-            connection.commit()
+                db.update_job_suggestions(id, suggestions)
 
             # Increment the analyzed count
             jobs_analyzed_count += 1
@@ -98,9 +91,6 @@ def analyze_jobs(scraping_status=None):
                 f"{current_time} - Error rating or getting suggestions for job {id}: {e}"
             )
 
-    cursor.close()
-    connection.close()
-
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if scraping_status and scraping_status.get("stop_analysis"):
         print(
@@ -115,57 +105,15 @@ def analyze_jobs(scraping_status=None):
 
 
 def mark_applied(job_id):
-    # Connect to database
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    # Update job as applied
-    cursor.execute("UPDATE jobs SET applied = 1 WHERE id = ?", (job_id,))
-    conn.commit()
-
-    # Close connection
-    cursor.close()
-    conn.close()
+    db = Database()
+    db.mark_job_applied(job_id)
 
 
 def get_job_list():
-    # Connect to database
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row  # enable row access by column name
-    cursor = conn.cursor()
-
-    # Get all jobs
-    cursor.execute(
-        """
-            SELECT * FROM jobs 
-                WHERE 
-                    rating IS NOT NULL
-                    AND posted_time > ?
-                    AND applied = 0
-                    AND suggestions IS NOT NULL
-                    AND rating > 0
-                ORDER BY rating DESC
-        """,
-        (datetime.now() - timedelta(days=4),),  # 4 days ago
-    )
-    jobs = cursor.fetchall()
-
-    # Close connection
-    cursor.close()
-    conn.close()
-
-    return jobs
+    db = Database()
+    return db.get_job_list()
 
 
 def set_rating(job_id, rating):
-    # Connect to database
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    # Update job rating
-    cursor.execute("UPDATE jobs SET rating = ? WHERE id = ?", (rating, job_id))
-    conn.commit()
-
-    # Close connection
-    cursor.close()
-    conn.close()
+    db = Database()
+    db.update_job_rating(job_id, rating)
