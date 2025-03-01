@@ -36,7 +36,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
     list_url = f"{search_url}?{query_params[1:]}"  # Remove leading & from first param
 
     jobs = []
-    for i in range(0, 1):
+    for i in range(0, 100):
         # Check if scraping should be stopped
         if scraping_status and scraping_status.get("stop_scraping"):
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

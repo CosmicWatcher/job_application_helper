@@ -37,7 +37,6 @@ def analyze_jobs(scraping_status=None):
         scraping_status["total_jobs_to_analyze"] = total_jobs_to_analyze
 
     jobs_analyzed_count = 0
-    jobs_failed_count = 0
 
     for job in jobs:
         # Check if analysis should be stopped
@@ -79,13 +78,6 @@ def analyze_jobs(scraping_status=None):
             )
 
         except Exception as e:
-            jobs_failed_count += 1
-            # Update the total jobs to analyze if a job fails
-            if scraping_status is not None and jobs_failed_count > 0:
-                scraping_status["total_jobs_to_analyze"] = (
-                    total_jobs_to_analyze - jobs_failed_count
-                )
-
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(
                 f"{current_time} - Error rating or getting suggestions for job {id}: {e}"
