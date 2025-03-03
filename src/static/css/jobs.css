@@ -30,12 +30,50 @@
 .id {
   margin-bottom: 5px;
   color: #7f8c8d;
+  margin: 0;
 }
 
 .rating {
   font-weight: bold;
   color: #3498db;
-  margin-top: 5px;
+  margin: 0;
+}
+
+.title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.company {
+  font-weight: bold;
+  margin: 0;
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px 5px rgba(0, 250, 0, 0.3);
+}
+
+.job-header-rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.job-header-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .description {
@@ -101,7 +139,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 2rem;
 }
 
 .linkedin-link {

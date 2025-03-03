@@ -20,6 +20,8 @@ class Database:
                         (
                             id INTEGER PRIMARY KEY AUTOINCREMENT,
                             external_id TEXT UNIQUE,
+                            title TEXT,
+                            company TEXT,
                             description TEXT,
                             posted_time DATETIME,
                             rating INTEGER,
@@ -75,10 +77,10 @@ class Database:
         self.cursor.execute("UPDATE jobs SET applied = 1 WHERE id = ?", (job_id,))
         self.connection.commit()
 
-    def insert_job(self, external_id, description, posted_time):
+    def insert_job(self, external_id, description, posted_time, title, company):
         """Insert a new job into the database"""
         self.cursor.execute(
-            "INSERT INTO jobs (external_id, description, posted_time) VALUES (?, ?, ?)",
-            (external_id, description, posted_time),
+            "INSERT INTO jobs (external_id, description, posted_time, title, company) VALUES (?, ?, ?, ?, ?)",
+            (external_id, description, posted_time, title, company),
         )
         self.connection.commit()

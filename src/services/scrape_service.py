@@ -117,6 +117,13 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                 if description_div
                 else ""
             )
+            title = soup.find("h2", class_="top-card-layout__title").get_text(
+                strip=True
+            )
+            company = soup.find(
+                "a",
+                class_="topcard__org-name-link",
+            ).get_text(strip=True)
             time_ago = soup.find("span", class_="posted-time-ago__text").get_text(
                 strip=True
             )
@@ -140,7 +147,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                     posted_time = current_time - timedelta(days=num)
 
             if posted_time:
-                db.insert_job(job_id, description, posted_time)
+                db.insert_job(job_id, description, posted_time, title, company)
                 jobs_scraped_count += 1
 
                 # Update the scraping status if provided
@@ -160,8 +167,6 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                 )
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print_error(f"{current_time} - Error inserting job {job_id}: {e}")
-
-    # Database connection is closed in the Database class destructor
 
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if scraping_status and scraping_status.get("stop_scraping"):

@@ -60,6 +60,17 @@
         id="job-{{ job['id'] }}"
         class="job {% if job['applied'] %}applied{% endif %}"
       >
+        <div class="job-header">
+          <div class="job-header-rating">
+            <h5 class="id">ID: {{ job['id'] }}</h5>
+            <h3 class="rating">
+              Rating: {{ job['rating'] if job['rating'] is not none else "Not
+              rated" }}
+            </h3>
+          </div>
+          <h3 class="title">{{ job['title'] }}</h3>
+          <h3 class="company">{{ job['company'] }}</h3>
+        </div>
         <div class="job-actions">
           <button class="reject-job-btn" data-job-id="{{ job.id }}">
             Reject Job
@@ -77,11 +88,6 @@
         </div>
         <div class="job-content">
           <div class="job-main">
-            <h5 class="id">ID: {{ job['id'] }}</h5>
-            <h3 class="rating">
-              Rating: {{ job['rating'] if job['rating'] is not none else "Not
-              rated" }}
-            </h3>
             <div class="description">{{ job['description']|safe }}</div>
           </div>
           <div class="job-suggestions" style="display: none">
