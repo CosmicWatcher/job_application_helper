@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from services.database_service import Database
+from utils import print_error
 
 
 def scrape_jobs(time_period, location, keywords, scraping_status=None):
@@ -49,11 +50,11 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
             retry_after = 1.05 * float(
                 res.headers.get("Retry-After", 5)
             )  # Default to 5 seconds if header is missing
-            print(f"Rate limited. Retrying after {retry_after} seconds...")
+            print_error(f"Rate limited. Retrying after {retry_after} seconds...")
             time.sleep(retry_after)
             res = requests.get(f"{list_url}&start={i * 10}")
         elif res.status_code != 200:
-            print(f"Error: {res.status_code}")
+            print_error(f"Error: {res.status_code}")
             break
 
         soup = BeautifulSoup(res.text, "html.parser")
@@ -101,7 +102,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                 retry_after = 1.05 * float(
                     res.headers.get("Retry-After", 5)
                 )  # Default to 5 seconds if header is missing
-                print(f"Rate limited. Retrying after {retry_after} seconds...")
+                print_error(f"Rate limited. Retrying after {retry_after} seconds...")
                 time.sleep(retry_after)
                 res = requests.get(job_url.format(job_id))
 
@@ -158,7 +159,7 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                     total_jobs_to_scrape - jobs_failed_count
                 )
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(f"{current_time} - Error inserting job {job_id}: {e}")
+            print_error(f"{current_time} - Error inserting job {job_id}: {e}")
 
     # Database connection is closed in the Database class destructor
 

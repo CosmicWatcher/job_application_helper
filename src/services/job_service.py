@@ -7,6 +7,7 @@ from google import genai
 from config import PROMPT_PATH
 from services.database_service import Database
 from services.llm_service import get_rating, get_suggestions
+from utils import print_error
 
 
 def analyze_jobs(scraping_status=None):
@@ -79,7 +80,7 @@ def analyze_jobs(scraping_status=None):
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(
+            print_error(
                 f"{current_time} - Error rating or getting suggestions for job {id}: {e}"
             )
 

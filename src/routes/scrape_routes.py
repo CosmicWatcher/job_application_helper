@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import Blueprint, jsonify, render_template, request
 
 from services import job_service, scrape_service
+from utils import print_error
 
 # Create a blueprint for scraping routes
 scrape_bp = Blueprint("scrape", __name__)
@@ -120,6 +121,6 @@ def run_scraping_process(time_period, location, keywords):
         scraping_status["is_running"] = False
     except Exception as e:
         error_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"{error_timestamp} - Error in scrape process: {str(e)}")
+        print_error(f"{error_timestamp} - Error in scrape process: {str(e)}")
         scraping_status["error"] = str(e)
         scraping_status["is_running"] = False

@@ -4,6 +4,7 @@ import subprocess
 from datetime import datetime
 
 from config import ROOT_PATH
+from utils import print_error
 
 
 def parse_resume_latex(resume_path):
@@ -21,7 +22,7 @@ def parse_resume_latex(resume_path):
         r"\\section\*\{Experience\}(.*?)\\section\*", content, re.DOTALL
     )
     if not experience_section:
-        print(
+        print_error(
             f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error: Could not find Experience section in resume.tex"
         )
         return []

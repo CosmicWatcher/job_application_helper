@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Blueprint, jsonify, render_template
 
 from services import job_service
+from utils import print_error
 
 # Create a blueprint for job-related routes
 job_bp = Blueprint("job", __name__)
@@ -18,7 +19,7 @@ def mark_job_applied(job_id):
         )
         return jsonify({"success": True})
     except Exception as e:
-        print(
+        print_error(
             f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error marking job {job_id} as applied: {str(e)}"
         )
         return jsonify({"success": False, "error": str(e)}), 500
@@ -34,7 +35,7 @@ def reject_job(job_id):
         )
         return jsonify({"success": True})
     except Exception as e:
-        print(
+        print_error(
             f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error rejecting job {job_id}: {str(e)}"
         )
         return jsonify({"success": False, "error": str(e)}), 500
@@ -46,7 +47,7 @@ def show_jobs():
         jobs = job_service.get_job_list()
         return render_template("jobs.html", jobs=jobs)
     except Exception as e:
-        print(
+        print_error(
             f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error showing jobs: {str(e)}"
         )
         return f"Error: {str(e)}", 500

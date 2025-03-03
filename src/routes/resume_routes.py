@@ -5,6 +5,7 @@ from flask import Blueprint, jsonify, request, url_for
 
 from config import RESUME_PATH
 from services import resume_service
+from utils import print_error
 
 # Create a blueprint for resume-related routes
 resume_bp = Blueprint("resume", __name__)
@@ -31,7 +32,7 @@ def get_resume_data():
         jobs = resume_service.parse_resume_latex(RESUME_PATH)
         return jsonify({"success": True, "jobs": jobs})
     except Exception as e:
-        print(
+        print_error(
             f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error getting resume data: {str(e)}"
         )
         return jsonify({"success": False, "error": str(e)})
@@ -67,7 +68,7 @@ def generate_resume():
 
         return jsonify({"success": True, "pdf_path": pdf_url})
     except Exception as e:
-        print(
+        print_error(
             f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error generating resume: {str(e)}"
         )
         return jsonify({"success": False, "error": str(e)})
