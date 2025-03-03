@@ -1,5 +1,6 @@
 import os
 import re
+import shutil
 import subprocess
 from datetime import datetime
 
@@ -51,7 +52,7 @@ def parse_resume_latex(resume_path):
     return jobs
 
 
-def generate_resume_pdf(resume_path, selected_items):
+def generate_resume_pdf(resume_path, selected_items, job_id):
     """
     Generate a PDF version of the resume.
 
@@ -139,6 +140,17 @@ def generate_resume_pdf(resume_path, selected_items):
     resume_tmp_path = os.path.join(resume_root, "tmp.tex")
     with open(resume_tmp_path, "w") as file:
         file.write(new_content)
+
+    # Ensure the archive directory exists and save a copy of the new tex file
+    archive_dir = os.path.join(
+        resume_root,
+        "archive",
+    )
+    os.makedirs(archive_dir, exist_ok=True)
+    shutil.copy2(resume_tmp_path, os.path.join(archive_dir, f"{job_id}.tex"))
+    print(
+        f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Archived resume for job {job_id}"
+    )
 
     # Compile to PDF
     try:

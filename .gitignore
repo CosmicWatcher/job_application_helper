@@ -3,6 +3,7 @@
 __pycache__/
 models/
 resume/tmp*
+resume/archive/*
 resume/resume.tex
 resume.pdf
 .env

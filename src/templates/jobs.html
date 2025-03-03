@@ -75,7 +75,11 @@
           <button class="reject-job-btn" data-job-id="{{ job.id }}">
             Reject Job
           </button>
-          <button class="edit-resume-btn" data-job-id="{{ job.id }}">
+          <button
+            class="edit-resume-btn"
+            data-job-id="{{ job.id }}"
+            data-external-id="{{ job.external_id }}"
+          >
             Edit Resume
           </button>
           <a

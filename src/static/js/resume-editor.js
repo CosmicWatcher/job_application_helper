@@ -9,23 +9,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Current job being edited
   let currentJobId = null;
+  let currentJobExternalId = null;
   let currentJobSuggestions = [];
 
   // Add event listeners to all "Edit Resume" buttons
   document.querySelectorAll(".edit-resume-btn").forEach((el) => {
     el.addEventListener("click", function () {
       const jobId = this.getAttribute("data-job-id");
+      const externalId = this.getAttribute("data-external-id");
       const jobElement = document.getElementById(`job-${jobId}`);
       const suggestions =
         jobElement.querySelector(".job-suggestions p").textContent;
 
-      openResumeEditor(jobId, suggestions);
+      openResumeEditor(jobId, externalId, suggestions);
     });
   });
 
   // Function to open the resume editor for a specific job
-  function openResumeEditor(jobId, suggestions) {
+  function openResumeEditor(jobId, externalId, suggestions) {
     currentJobId = jobId;
+    currentJobExternalId = externalId;
 
     // Parse suggestions by splitting on \item
     // This regex looks for \item and captures everything until the next \item or end of string
@@ -546,6 +549,7 @@ document.addEventListener("DOMContentLoaded", function () {
   closeModalBtn.addEventListener("click", function () {
     modal.style.display = "none";
     currentJobId = null;
+    currentJobExternalId = null;
     currentJobSuggestions = [];
   });
 
@@ -554,6 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (event.target === modal) {
       modal.style.display = "none";
       currentJobId = null;
+      currentJobExternalId = null;
       currentJobSuggestions = [];
     }
   });
@@ -597,6 +602,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Create form data from the organized job sections
     const formData = new FormData();
+
+    // Add the job_id (external_id) to the form data
+    if (currentJobExternalId) {
+      formData.append("job_id", currentJobExternalId);
+    }
 
     // Add all items in order by job section
     Object.keys(jobSections).forEach((jobTitle) => {

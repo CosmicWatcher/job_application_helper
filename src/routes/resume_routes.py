@@ -57,7 +57,10 @@ def generate_resume():
 
         # Get selected items from form
         selected_items = request.form.getlist("selected_items[]")
-        pdf_path = resume_service.generate_resume_pdf(RESUME_PATH, selected_items)
+        job_id = request.form.get("job_id")
+        pdf_path = resume_service.generate_resume_pdf(
+            RESUME_PATH, selected_items, job_id
+        )
 
         # Create a URL for the PDF file
         pdf_url = url_for("static", filename="resume.pdf")
