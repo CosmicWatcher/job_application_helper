@@ -71,6 +71,8 @@ def generate_resume_pdf(resume_path, selected_items):
             job_title, item = parts
             # Clean up item text - escape any unescaped percent symbols
             item = re.sub(r"(?<!\\)%", r"\\%", item)
+            # Double hash symbols are used to indicate a comment which needs to become an unescaped % for LaTeX's syntax
+            item = item.replace("##", "%")
             if job_title not in selected_job_items:
                 selected_job_items[job_title] = []
             selected_job_items[job_title].append(item)
