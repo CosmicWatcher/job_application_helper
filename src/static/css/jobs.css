@@ -80,6 +80,7 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  font-size: 1.2rem;
 }
 
 .edit-resume-btn {

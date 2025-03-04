@@ -175,6 +175,7 @@
 .item-text {
   flex: 1;
   padding-right: 30px; /* Make room for edit button */
+  font-size: 1.2rem;
 }
 
 .edit-item-btn,
@@ -239,8 +240,6 @@
   border-top: 1px solid #ddd;
   padding-top: 8px;
   margin-top: 5px;
-  max-height: 30vh;
-  overflow-y: auto;
 }
 
 .suggestions-container h2 {
@@ -268,6 +267,7 @@
   flex: 0 0 calc(33.333% - 10px);
   max-width: calc(33.333% - 10px);
   box-sizing: border-box;
+  font-size: 1.2rem;
 }
 
 .suggestion-item:before {
