@@ -82,6 +82,13 @@
           >
             Edit Resume
           </button>
+          <button
+            class="mark-applied-btn"
+            id="mark-applied-btn"
+            data-job-id="{{ job.id }}"
+          >
+            Mark Applied
+          </button>
           <a
             href="javascript:void(0);"
             onclick="viewOnLinkedIn('{{ job.id }}', '{{ job.external_id }}')"
@@ -106,15 +113,12 @@
 
       <!-- Application Confirmation Dialog -->
       <div id="application-dialog" class="modal">
-        <div class="modal-content application-dialog-content">
+        <div class="applied-dialog-content">
           <h2>Did you apply to this job?</h2>
           <p>Please confirm if you applied to this job on LinkedIn.</p>
-          <div class="button-container">
-            <button id="applied-yes-btn" class="btn-primary">
+          <div class="applied-button-container">
+            <button id="applied-yes-btn" class="applied-yes-btn">
               Yes, I applied
-            </button>
-            <button id="applied-no-btn" class="btn-secondary">
-              No, just viewing
             </button>
           </div>
         </div>

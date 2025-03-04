@@ -2,40 +2,41 @@ document.addEventListener("DOMContentLoaded", function () {
   // Get the application dialog element
   const applicationDialog = document.getElementById("application-dialog");
   const yesButton = document.getElementById("applied-yes-btn");
-  const noButton = document.getElementById("applied-no-btn");
 
   // Current job being processed
   let currentJobId = null;
   let currentExternalId = null;
 
   // Initialize event listeners for the dialog buttons
-  if (yesButton && noButton) {
+  if (yesButton) {
     yesButton.addEventListener("click", function () {
       // Mark the job as applied
       markAsApplied(currentJobId);
       // Close the dialog
       applicationDialog.style.display = "none";
     });
-
-    // Add event listeners for reject buttons
-    document.querySelectorAll(".reject-job-btn").forEach((button) => {
-      button.addEventListener("click", function () {
-        const jobId = this.getAttribute("data-job-id");
-        rejectJob(jobId);
-      });
-    });
-
-    noButton.addEventListener("click", function () {
-      // Just close the dialog
-      applicationDialog.style.display = "none";
-    });
   }
 
-  // Make the dialog modal - prevent closing by clicking outside
+  // Add event listeners for reject buttons
+  document.querySelectorAll(".reject-job-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const jobId = this.getAttribute("data-job-id");
+      rejectJob(jobId);
+    });
+  });
+
+  // Add event listeners for mark applied buttons
+  document.querySelectorAll(".mark-applied-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const jobId = this.getAttribute("data-job-id");
+      markAsApplied(jobId);
+    });
+  });
+
+  // close the did you apply dialog
   window.addEventListener("click", function (event) {
     if (event.target === applicationDialog) {
-      // Do nothing - force user to select an option
-      return false;
+      applicationDialog.style.display = "none";
     }
   });
 

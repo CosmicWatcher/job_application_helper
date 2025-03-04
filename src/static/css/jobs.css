@@ -84,8 +84,8 @@
 }
 
 .edit-resume-btn {
-  background-color: #b2a133 !important;
-  color: white !important;
+  background-color: #b2a133;
+  color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
@@ -96,12 +96,12 @@
 }
 
 .edit-resume-btn:hover {
-  background-color: #b09300 !important;
+  background-color: #b09300;
 }
 
 .reject-job-btn {
-  background-color: #9d352a !important;
-  color: white !important;
+  background-color: #9d352a;
+  color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
@@ -111,7 +111,22 @@
 }
 
 .reject-job-btn:hover {
-  background-color: #c0392b !important;
+  background-color: #882a1f;
+}
+
+.mark-applied-btn {
+  background-color: #29a74e;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.mark-applied-btn:hover {
+  background-color: #20813d;
 }
 
 .applied-tag {
@@ -224,20 +239,42 @@
   max-width: 600px;
 }
 
-.application-dialog-content {
-  text-align: center;
-}
-
-.application-dialog-content h2 {
-  color: #2c3e50;
+.applied-dialog-content h2 {
   margin-bottom: 1rem;
 }
 
-.button-container {
+.applied-dialog-content {
+  background-color: #fefefe;
+  color: #333;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 30vw;
+  max-width: 50vw;
+  text-align: center;
+}
+
+.applied-button-container {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 4rem;
+}
+
+.applied-yes-btn {
+  background-color: #29a74e;
+  color: white;
+  padding: 80px 100px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.applied-yes-btn:hover {
+  background-color: #20813d;
 }
 
 .btn-primary {
