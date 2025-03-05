@@ -159,7 +159,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const suggestionItem = document.createElement("div");
       suggestionItem.className = "suggestion-item";
-      suggestionItem.textContent = suggestion.display; // Display text without \item
+
+      // Check if the display text contains ##
+      const displayText = suggestion.display;
+      const parts = displayText.split("##");
+
+      if (parts.length > 1) {
+        // If ## is found, create two spans with different styling
+        const mainText = document.createElement("span");
+        mainText.textContent = parts[0].trim();
+
+        const mutedText = document.createElement("span");
+        mutedText.textContent = " ##" + parts.slice(1).join("##");
+        mutedText.className = "muted-text";
+
+        suggestionItem.appendChild(mainText);
+        suggestionItem.appendChild(mutedText);
+      } else {
+        // If no ## is found, display as normal
+        suggestionItem.textContent = displayText;
+      }
+
       suggestionItem.setAttribute("draggable", "true");
       suggestionItem.setAttribute("data-suggestion-index", index);
       // Store the full value with \item as a data attribute
@@ -195,7 +215,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const label = document.createElement("label");
     label.className = "item-text";
     label.htmlFor = checkbox.id;
-    label.textContent = displayText; // Display without \item
+
+    // Check if the display text contains ##
+    const parts = displayText.split("##");
+    if (parts.length > 1) {
+      // Clear the default text content
+      label.textContent = "";
+
+      // Add the main text
+      const mainText = document.createTextNode(parts[0].trim());
+      label.appendChild(mainText);
+
+      // Add the muted text
+      const mutedText = document.createElement("span");
+      mutedText.textContent = " ##" + parts.slice(1).join("##");
+      mutedText.className = "muted-text";
+      label.appendChild(mutedText);
+    } else {
+      // If no ## is found, display as normal
+      label.textContent = displayText;
+    }
 
     // Add edit button
     const editButton = document.createElement("button");
@@ -231,7 +270,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // Create a textarea for editing
     const textarea = document.createElement("textarea");
     textarea.className = "item-edit-textarea";
-    textarea.value = text;
+
+    // Get the full text including any muted parts
+    let fullText = text;
+    if (label.querySelector(".muted-text")) {
+      // If the label has a muted-text span, we need to get the full text
+      const mainText = label.childNodes[0].textContent || "";
+      const mutedText = label.querySelector(".muted-text").textContent || "";
+      fullText = mainText + mutedText;
+    }
+
+    textarea.value = fullText;
 
     // Replace the label with the textarea
     label.style.display = "none";
@@ -305,8 +354,25 @@ document.addEventListener("DOMContentLoaded", function () {
   function saveEditing(listItem, label, textarea, jobTitle) {
     const newText = textarea.value.trim();
     if (newText) {
-      // Update the label text
-      label.textContent = newText;
+      // Update the label with the new text, handling ## formatting
+      label.innerHTML = ""; // Clear existing content
+
+      // Check if the text contains ##
+      const parts = newText.split("##");
+      if (parts.length > 1) {
+        // Add the main text
+        const mainText = document.createTextNode(parts[0].trim());
+        label.appendChild(mainText);
+
+        // Add the muted text
+        const mutedText = document.createElement("span");
+        mutedText.textContent = " ##" + parts.slice(1).join("##");
+        mutedText.className = "muted-text";
+        label.appendChild(mutedText);
+      } else {
+        // If no ## is found, display as normal
+        label.textContent = newText;
+      }
 
       // Update the checkbox value with the new text
       const checkbox = listItem.querySelector('input[type="checkbox"]');

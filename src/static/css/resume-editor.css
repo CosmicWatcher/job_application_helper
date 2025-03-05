@@ -248,6 +248,12 @@
   color: #444;
 }
 
+.muted-text {
+  color: #888;
+  font-style: italic;
+  opacity: 0.8;
+}
+
 .suggestions-list {
   display: flex;
   flex-wrap: wrap;
