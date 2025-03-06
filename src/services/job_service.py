@@ -57,7 +57,7 @@ def analyze_jobs(scraping_status=None):
             print(f"{current_time} - Rating job {id}: {rating}")
             db.update_job_rating(id, rating)
 
-            if rating >= 60 and job["suggestions"] is None:
+            if rating >= 75 and job["suggestions"] is None:
                 suggestions = get_suggestions(
                     ai_client, suggestions_instruct, description
                 )
