@@ -1,21 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Get the application dialog element
-  const applicationDialog = document.getElementById("application-dialog");
-  const yesButton = document.getElementById("applied-yes-btn");
-
   // Current job being processed
   let currentJobId = null;
   let currentExternalId = null;
-
-  // Initialize event listeners for the dialog buttons
-  if (yesButton) {
-    yesButton.addEventListener("click", function () {
-      // Mark the job as applied
-      markAsApplied(currentJobId);
-      // Close the dialog
-      applicationDialog.style.display = "none";
-    });
-  }
 
   // Add event listeners for reject buttons
   document.querySelectorAll(".reject-job-btn").forEach((button) => {
@@ -33,35 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // close the did you apply dialog
-  window.addEventListener("click", function (event) {
-    if (event.target === applicationDialog) {
-      applicationDialog.style.display = "none";
-    }
-  });
-
   // Expose the viewOnLinkedIn function globally
   window.viewOnLinkedIn = function (jobId, externalId) {
-    // Store the current job info
-    currentJobId = jobId;
-    currentExternalId = externalId;
-
     // First open LinkedIn in a new tab
-    const linkedInWindow = window.open(
-      `https://www.linkedin.com/jobs/view/${externalId}`,
-      "_blank",
-    );
-
-    // Then show the application dialog after a short delay
-    // This ensures the browser doesn't block the popup and the tab opens first
-    setTimeout(function () {
-      applicationDialog.style.display = "block";
-      // Focus back on our window so the user sees the dialog
-      window.focus();
-    }, 500);
-
-    // Prevent the default link behavior
-    return false;
+    window.open(`https://www.linkedin.com/jobs/view/${externalId}`, "_blank");
   };
 
   // Function to mark a job as applied

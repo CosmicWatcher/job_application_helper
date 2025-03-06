@@ -90,8 +90,8 @@
             Mark Applied
           </button>
           <a
-            href="javascript:void(0);"
-            onclick="viewOnLinkedIn('{{ job.id }}', '{{ job.external_id }}')"
+            href="https://www.linkedin.com/jobs/view/{{ job.external_id }}"
+            target="_blank"
             class="linkedin-link"
           >
             View on LinkedIn
@@ -110,19 +110,6 @@
         <span class="rejected-tag">Rejected</span>
       </div>
       {% endfor %}
-
-      <!-- Application Confirmation Dialog -->
-      <div id="application-dialog" class="modal">
-        <div class="applied-dialog-content">
-          <h2>Did you apply to this job?</h2>
-          <p>Please confirm if you applied to this job on LinkedIn.</p>
-          <div class="applied-button-container">
-            <button id="applied-yes-btn" class="applied-yes-btn">
-              Yes, I applied
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </body>
 </html>

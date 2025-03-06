@@ -239,44 +239,6 @@
   max-width: 600px;
 }
 
-.applied-dialog-content h2 {
-  margin-bottom: 1rem;
-}
-
-.applied-dialog-content {
-  background-color: #fefefe;
-  color: #333;
-  margin: 10% auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 30vw;
-  max-width: 50vw;
-  text-align: center;
-}
-
-.applied-button-container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 4rem;
-}
-
-.applied-yes-btn {
-  background-color: #29a74e;
-  color: white;
-  padding: 80px 100px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.applied-yes-btn:hover {
-  background-color: #20813d;
-}
-
 .btn-primary {
   background-color: #3498db;
   color: white;
