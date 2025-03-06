@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
 
 from services import job_service
 from utils import print_error
@@ -43,8 +43,10 @@ def reject_job(job_id):
 
 @job_bp.route("/jobs")
 def show_jobs():
+    days_ago = request.args.get("days_ago", default=4, type=int)
+    print(f"days_ago: {days_ago}")
     try:
-        jobs = job_service.get_job_list()
+        jobs = job_service.get_job_list(days_ago=days_ago)
         return render_template("jobs.html", jobs=jobs)
     except Exception as e:
         print_error(

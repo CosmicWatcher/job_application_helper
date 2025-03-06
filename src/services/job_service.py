@@ -102,9 +102,9 @@ def mark_applied(job_id):
     db.mark_job_applied(job_id)
 
 
-def get_job_list():
+def get_job_list(days_ago=3):
     db = Database()
-    return db.get_job_list()
+    return db.get_job_list(days_ago=days_ago)
 
 
 def set_rating(job_id, rating):

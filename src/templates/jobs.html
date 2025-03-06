@@ -21,6 +21,28 @@
     {% with active_page = 'jobs' %} {% include 'header.html' %} {% endwith %}
 
     <div class="container">
+      <div class="days-ago-selector">
+        <h3>
+          Get jobs from the last
+          <span>
+            <input
+              type="number"
+              id="days-ago-input"
+              min="1"
+              max="7"
+              placeholder="x"
+            />
+          </span>
+          days ago to now
+        </h3>
+        <button
+          class="btn-primary"
+          onclick="window.location.href='/jobs?days_ago=' + document.getElementById('days-ago-input').value"
+        >
+          Search
+        </button>
+      </div>
+
       <h1>Job Listings</h1>
 
       <!-- Resume Editor Modal Dialog -->

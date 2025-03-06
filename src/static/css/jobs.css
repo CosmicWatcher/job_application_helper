@@ -265,3 +265,24 @@
 .btn-secondary:hover {
   background-color: #7f8c8d;
 }
+
+.days-ago-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.days-ago-selector .btn-primary {
+  margin-left: 1rem;
+}
+
+#days-ago-input {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  width: 3rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+}

@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // console.log(window.location.href.split("?")[1]);
+  const queryParams = window.location.href.split("?")[1];
+  if (queryParams) {
+    const daysAgo = queryParams.split("=")[1];
+    if (daysAgo) {
+      document.getElementById("days-ago-input").value = daysAgo;
+    }
+  }
+
   // Current job being processed
   let currentJobId = null;
   let currentExternalId = null;
