@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Profile</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/profile.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+  </head>
+  <body>
+    {% with active_page = 'profile' %} {% include 'header.html' %} {% endwith %}
+    <div class="profile-container">
+      <h1>Job Application Profile</h1>
+
+      <div class="profile-summary">
+        <div class="summary-card" id="total-applications">
+          <h3>Total Applications</h3>
+          <div class="stat-value">Loading...</div>
+        </div>
+        <div class="summary-card" id="application-rate">
+          <h3>Applications Per Day</h3>
+          <div class="stat-value">Loading...</div>
+          <div class="stat-subtitle">7-day average</div>
+        </div>
+      </div>
+
+      <div class="stats-container">
+        <div class="stats-card">
+          <h2>Applications by Company</h2>
+          <div id="company-chart" class="chart-container">
+            <div class="loading">Loading chart...</div>
+          </div>
+          <div id="company-list" class="stat-list">
+            <div class="loading">Loading data...</div>
+          </div>
+        </div>
+
+        <div class="stats-card">
+          <h2>Applications by Day</h2>
+          <div id="daily-chart" class="chart-container">
+            <div class="loading">Loading chart...</div>
+          </div>
+          <div id="daily-list" class="stat-list">
+            <div class="loading">Loading data...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <h2>Recent Applications</h2>
+        <div id="recent-applications" class="recent-list">
+          <div class="loading">Loading recent applications...</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

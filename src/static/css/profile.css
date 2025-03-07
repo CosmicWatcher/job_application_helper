@@ -1,0 +1,148 @@
+@import url("./common.css");
+
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-summary {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  flex: 1;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.summary-card h3 {
+  margin-top: 0;
+  color: #495057;
+  font-size: 1rem;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #0d6efd;
+  margin: 10px 0;
+}
+
+.stat-subtitle {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stats-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #343a40;
+  font-size: 1.25rem;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.chart-container {
+  height: 250px;
+  margin-bottom: 20px;
+}
+
+.stat-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.company-name,
+.day-date {
+  font-weight: 500;
+}
+
+.company-count,
+.day-count {
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+.recent-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.application-item {
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.application-item:last-child {
+  border-bottom: none;
+}
+
+.application-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.job-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #212529;
+}
+
+.application-date {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.loading {
+  text-align: center;
+  color: #6c757d;
+  padding: 20px;
+}
+
+.loading.error {
+  color: #dc3545;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-summary {
+    flex-direction: column;
+  }
+}

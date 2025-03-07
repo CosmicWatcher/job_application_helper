@@ -8,13 +8,6 @@
       <ul>
         <li>
           <a
-            href="/"
-            class="nav-button {% if active_page == 'home' %}active{% endif %}"
-            >Home</a
-          >
-        </li>
-        <li>
-          <a
             href="/scrape"
             class="nav-button {% if active_page == 'scrape' %}active{% endif %}"
             >Scraper</a
@@ -25,6 +18,14 @@
             href="/jobs?days_ago=1"
             class="nav-button {% if active_page == 'jobs' %}active{% endif %}"
             >Job Listings</a
+          >
+        </li>
+        <li>
+          <a
+            href="/profile"
+            id="profile-button"
+            class="nav-button {% if active_page == 'profile' %}active{% endif %}"
+            >Profile</a
           >
         </li>
       </ul>

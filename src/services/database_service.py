@@ -61,6 +61,15 @@ class Database:
         )
         return self.cursor.fetchall()
 
+    def get_applied_jobs(self):
+        """Get all jobs that have been applied in the last x days"""
+        self.cursor.execute(
+            """
+            SELECT * FROM jobs WHERE applied = 1 ORDER BY time_applied DESC
+            """
+        )
+        return self.cursor.fetchall()
+
     def update_job_rating(self, job_id, rating):
         """Update the rating for a job"""
         self.cursor.execute("UPDATE jobs SET rating = ? WHERE id = ?", (rating, job_id))

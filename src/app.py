@@ -14,6 +14,7 @@ else:
     print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Running in dev mode")
 
 from routes.job_routes import job_bp
+from routes.profile_routes import profile_bp
 from routes.resume_routes import resume_bp
 from routes.scrape_routes import scrape_bp
 
@@ -28,6 +29,7 @@ app = Flask(__name__)
 app.register_blueprint(job_bp)
 app.register_blueprint(resume_bp)
 app.register_blueprint(scrape_bp)
+app.register_blueprint(profile_bp)
 
 
 # Home route
