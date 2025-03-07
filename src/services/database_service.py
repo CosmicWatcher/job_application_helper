@@ -26,6 +26,7 @@ class Database:
                             posted_time DATETIME,
                             rating INTEGER,
                             applied BOOLEAN NOT NULL DEFAULT 0,
+                            time_applied DATETIME,
                             suggestions TEXT
                         )
             """
@@ -74,7 +75,10 @@ class Database:
 
     def mark_job_applied(self, job_id):
         """Mark a job as applied"""
-        self.cursor.execute("UPDATE jobs SET applied = 1 WHERE id = ?", (job_id,))
+        self.cursor.execute(
+            "UPDATE jobs SET applied = 1, time_applied = ? WHERE id = ?",
+            (datetime.now(), job_id),
+        )
         self.connection.commit()
 
     def insert_job(self, external_id, description, posted_time, title, company):
