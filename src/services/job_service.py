@@ -4,7 +4,7 @@ from datetime import datetime
 
 from google import genai
 
-from config import PROMPT_PATH
+from config import JOB_RATING_THRESHOLD, PROMPT_PATH
 from services.database_service import Database
 from services.llm_service import get_rating, get_suggestions
 from utils import print_error
@@ -57,7 +57,7 @@ def analyze_jobs(scraping_status=None):
             print(f"{current_time} - Rating job {id}: {rating}")
             db.update_job_rating(id, rating)
 
-            if rating >= 75 and job["suggestions"] is None:
+            if rating >= JOB_RATING_THRESHOLD and job["suggestions"] is None:
                 suggestions = get_suggestions(
                     ai_client, suggestions_instruct, description
                 )
