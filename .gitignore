@@ -9,3 +9,4 @@ resume.pdf
 .env
 prompts.json
 src/tmp.py
+blacklists.json

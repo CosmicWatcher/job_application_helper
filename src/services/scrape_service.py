@@ -1,3 +1,5 @@
+import json
+import os
 import time
 from datetime import datetime, timedelta
 from re import search
@@ -5,6 +7,7 @@ from re import search
 import requests
 from bs4 import BeautifulSoup
 
+from config import ROOT_PATH
 from services.database_service import Database
 from utils import print_error
 
@@ -120,10 +123,14 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
             title = soup.find("h2", class_="top-card-layout__title").get_text(
                 strip=True
             )
+
             company = soup.find(
                 "a",
                 class_="topcard__org-name-link",
             ).get_text(strip=True)
+            if is_blacklisted(company):
+                raise Exception(f"Company {company} is blacklisted")
+
             time_ago = soup.find("span", class_="posted-time-ago__text").get_text(
                 strip=True
             )
@@ -179,3 +186,13 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
         )
 
     return jobs_scraped_count
+
+
+def is_blacklisted(company):
+    with open(os.path.join(ROOT_PATH, "blacklists.json"), "r") as f:
+        blacklists = json.load(f)
+
+    if company.lower() in [c.lower() for c in blacklists["companies"]]:
+        return True
+    else:
+        return False
