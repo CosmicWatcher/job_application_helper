@@ -84,7 +84,9 @@
       >
         <div class="job-header">
           <div class="job-header-rating">
-            <h5 class="id">ID: {{ job['id'] }}</h5>
+            <h5 class="id">
+              ID: {{ job['id'] }} &ndash; {{ job['external_id'] }}
+            </h5>
             <h3 class="rating">
               Rating: {{ job['rating'] if job['rating'] is not none else "Not
               rated" }}
