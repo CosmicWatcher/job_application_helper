@@ -116,11 +116,8 @@ function renderDailyStats(dailyData) {
     const item = document.createElement("div");
     item.className = "stat-item";
 
-    // Format date to be more readable
-    const formattedDate = new Date(day.date).toLocaleDateString();
-
     item.innerHTML = `
-            <span class="day-date">${formattedDate}</span>
+            <span class="day-date">${day.date}</span>
             <span class="day-count">${day.count}</span>
         `;
     dailyList.appendChild(item);
@@ -134,7 +131,7 @@ function renderDailyStats(dailyData) {
   new Chart(canvas, {
     type: "line",
     data: {
-      labels: recentDays.map((d) => new Date(d.date).toLocaleDateString()),
+      labels: recentDays.map((d) => d.date),
       datasets: [
         {
           label: "Applications",
