@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import time
 from datetime import datetime, timedelta
 from re import search
@@ -120,16 +121,21 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
                 if description_div
                 else ""
             )
-            title = soup.find("h2", class_="top-card-layout__title").get_text(
-                strip=True
-            )
 
             company = soup.find(
                 "a",
                 class_="topcard__org-name-link",
             ).get_text(strip=True)
-            if is_blacklisted(company):
-                raise Exception(f"Company {company} is blacklisted")
+            if is_blacklisted(company=company):
+                raise Exception(f"Job:{job_id} blacklisted - Company: {company}")
+
+            title = soup.find("h2", class_="top-card-layout__title").get_text(
+                strip=True
+            )
+            if is_blacklisted(title=title):
+                raise Exception(
+                    f"Job:{job_id} blacklisted - Title: {title}, Company: {company}"
+                )
 
             time_ago = soup.find("span", class_="posted-time-ago__text").get_text(
                 strip=True
@@ -188,11 +194,21 @@ def scrape_jobs(time_period, location, keywords, scraping_status=None):
     return jobs_scraped_count
 
 
-def is_blacklisted(company):
+def is_blacklisted(company=None, title=None):
     with open(os.path.join(ROOT_PATH, "blacklists.json"), "r") as f:
         blacklists = json.load(f)
 
-    if company.lower() in [c.lower() for c in blacklists["companies"]]:
-        return True
-    else:
-        return False
+    if company:
+        if company.lower() in [c.lower() for c in blacklists["companies"]]:
+            return True
+        else:
+            return False
+
+    if title:
+        if any(
+            re.search(r"\b" + fuzzy_title + r"\b", title, re.IGNORECASE) is not None
+            for fuzzy_title in blacklists["titles"]
+        ):
+            return True
+        else:
+            return False
