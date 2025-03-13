@@ -109,7 +109,9 @@ def run_scraping_process(time_period, location, keywords):
     try:
         # Step 1: Save jobs to database
         # Pass the scraping_status to the scrape_jobs function
-        scrape_service.scrape_jobs(time_period, location, keywords, scraping_status)
+        scrape_service.scrape_jobs(
+            "linkedin", time_period, location, keywords, scraping_status
+        )
         scraping_status["scrape_complete"] = True
 
         # Step 2: Analyze jobs
