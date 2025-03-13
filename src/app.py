@@ -1,17 +1,18 @@
 import os
 import sys
-from datetime import datetime
 
 from dotenv import load_dotenv
 from flask import Flask, render_template
 
+from utils import logger
+
 # Parse command line arguments
 if "--test" in sys.argv:
     os.environ["MODE"] = "TEST"
-    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Running in test mode")
+    logger.info("Running in test mode")
 else:
     os.environ["MODE"] = "DEV"
-    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Running in dev mode")
+    logger.info("Running in dev mode")
 
 from routes.job_routes import job_bp
 from routes.profile_routes import profile_bp
@@ -39,5 +40,5 @@ def home():
 
 
 if __name__ == "__main__":
-    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Starting Flask server...")
+    logger.info("Starting Flask server...")
     app.run(debug=True)

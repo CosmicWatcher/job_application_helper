@@ -1,13 +1,12 @@
 import json
 import os
-from datetime import datetime
 
 from google import genai
 
 from config import JOB_RATING_THRESHOLD, PROMPT_PATH
 from services.database_service import Database
 from services.llm_service import get_rating, get_suggestions
-from utils import print_error
+from utils import logger
 
 
 def analyze_jobs(scraping_status=None):
@@ -30,8 +29,7 @@ def analyze_jobs(scraping_status=None):
     jobs = db.get_unrated_jobs()
 
     total_jobs_to_analyze = len(jobs)
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"{current_time} - Starting analysis of {total_jobs_to_analyze} jobs")
+    logger.info(f"Starting analysis of {total_jobs_to_analyze} jobs")
 
     # Update the total jobs to analyze in the status
     if scraping_status is not None:
@@ -42,10 +40,7 @@ def analyze_jobs(scraping_status=None):
     for job in jobs:
         # Check if analysis should be stopped
         if scraping_status and scraping_status.get("stop_analysis"):
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(
-                f"{current_time} - Analysis stopped by user after {jobs_analyzed_count} jobs"
-            )
+            logger.info(f"Analysis stopped by user after {jobs_analyzed_count} jobs")
             break
 
         id = job["id"]
@@ -53,16 +48,14 @@ def analyze_jobs(scraping_status=None):
 
         try:
             rating = get_rating(ai_client, rating_instruct, description)
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(f"{current_time} - Rating job {id}: {rating}")
+            logger.info(f"Rating job {id}: {rating}")
             db.update_job_rating(id, rating)
 
             if rating >= JOB_RATING_THRESHOLD and job["suggestions"] is None:
                 suggestions = get_suggestions(
                     ai_client, suggestions_instruct, description
                 )
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print(f"{current_time} - Got suggestions for job {id}")
+                logger.info(f"Got suggestions for job {id}")
                 db.update_job_suggestions(id, suggestions)
 
             # Increment the analyzed count
@@ -73,26 +66,15 @@ def analyze_jobs(scraping_status=None):
                 scraping_status["jobs_analyzed"] = jobs_analyzed_count
 
             # Log progress
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(
-                f"{current_time} - Analyzed job {jobs_analyzed_count}/{total_jobs_to_analyze}"
-            )
+            logger.info(f"Analyzed job {jobs_analyzed_count}/{total_jobs_to_analyze}")
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print_error(
-                f"{current_time} - Error rating or getting suggestions for job {id}: {e}"
-            )
+            logger.error(f"Error rating or getting suggestions for job {id}: {e}")
 
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if scraping_status and scraping_status.get("stop_analysis"):
-        print(
-            f"{current_time} - Analysis stopped by user. Analyzed {jobs_analyzed_count} jobs"
-        )
+        logger.info(f"Analysis stopped by user. Analyzed {jobs_analyzed_count} jobs")
     else:
-        print(
-            f"{current_time} - Completed analysis. Total jobs analyzed: {jobs_analyzed_count}"
-        )
+        logger.info(f"Completed analysis. Total jobs analyzed: {jobs_analyzed_count}")
 
     return jobs_analyzed_count
 

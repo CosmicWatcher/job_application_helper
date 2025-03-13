@@ -1,8 +1,7 @@
-from datetime import datetime
-
 from flask import Blueprint, jsonify, render_template
 
 from services import profile_service
+from utils import logger
 
 profile_bp = Blueprint("profile", __name__)
 
@@ -20,6 +19,5 @@ def get_profile_stats():
         stats = profile_service.get_application_stats()
         return jsonify(stats)
     except Exception as e:
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"[{current_time}] Error fetching profile stats: {str(e)}")
+        logger.error(f"Error fetching profile stats: {str(e)}")
         return jsonify({"error": str(e)}), 500

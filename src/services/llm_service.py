@@ -2,7 +2,7 @@ import time
 
 from google.genai import errors, types
 
-from utils import print_error
+from utils import logger
 
 
 def get_rating(client, instruction, description):
@@ -24,11 +24,9 @@ def get_rating(client, instruction, description):
         return int(response.text)
     except errors.APIError as e:
         if e.code == 429:
-            print_error(
-                f"{time.strftime('%Y-%m-%d %H:%M:%S')} Rate limit exceeded: {e}, waiting 10 seconds"
-            )
+            logger.error(f"Rate limit exceeded: {e}, waiting 10 seconds")
             time.sleep(10)
-            return get_rating(description)
+            return get_rating(client, instruction, description)
         raise
 
 
@@ -49,9 +47,7 @@ def get_suggestions(client, instruction, description):
         return response.text
     except errors.APIError as e:
         if e.code == 429:
-            print_error(
-                f"{time.strftime('%Y-%m-%d %H:%M:%S')} Rate limit exceeded: {e}, waiting 10 seconds"
-            )
+            logger.error(f"Rate limit exceeded: {e}, waiting 10 seconds")
             time.sleep(10)
-            return get_suggestions(description)
+            return get_suggestions(client, instruction, description)
         raise

@@ -2,15 +2,16 @@ import json
 import os
 import re
 import time
-from datetime import datetime, timedelta
 from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
 from typing import Literal
+
 import requests
 from bs4 import BeautifulSoup
 
 from config import ROOT_PATH
 from services.database_service import Database
-from utils import print_error
+from utils import logger
 
 
 class JobBoardScraper(ABC):
@@ -47,8 +48,7 @@ class JobBoardScraper(ABC):
         for i in range(0, 100):
             # Check if scraping should be stopped
             if scraping_status and scraping_status.get("stop_scraping"):
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print(f"{current_time} - Scraping stopped by user during job search")
+                logger.info("Scraping stopped by user during job search")
                 break
 
             res = self._make_request(f"{list_url}&start={i * 10}")
@@ -67,8 +67,7 @@ class JobBoardScraper(ABC):
             if scraping_status is not None:
                 scraping_status["jobs_scraped"] = len(jobs)
 
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"{current_time} - Found {len(jobs)} jobs")
+        logger.info(f"Found {len(jobs)} jobs")
 
         # Update total jobs to scrape in status
         if scraping_status is not None:
@@ -79,10 +78,7 @@ class JobBoardScraper(ABC):
         for job_id in jobs:
             # Check if scraping should be stopped
             if scraping_status and scraping_status.get("stop_scraping"):
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print(
-                    f"{current_time} - Scraping stopped by user after {jobs_scraped_count} jobs"
-                )
+                logger.info(f"Scraping stopped by user after {jobs_scraped_count} jobs")
                 break
 
             try:
@@ -97,20 +93,16 @@ class JobBoardScraper(ABC):
                 jobs_scraped_count += 1
                 if scraping_status is not None:
                     scraping_status["jobs_scraped"] = jobs_scraped_count
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print(f"{current_time} - Scraped job {jobs_scraped_count}/{len(jobs)}")
+                logger.info(f"Scraped job {jobs_scraped_count}/{len(jobs)}")
             except Exception as e:
-                print_error(f"Error saving job {job_id}: {e}")
+                logger.error(f"Error saving job {job_id}: {e}")
                 jobs_failed_count += 1
                 if scraping_status is not None:
                     scraping_status["total_jobs_to_scrape"] = (
                         len(jobs) - jobs_failed_count
                     )
 
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(
-            f"{current_time} - Completed scraping. Total jobs scraped: {jobs_scraped_count}"
-        )
+        logger.info(f"Completed scraping. Total jobs scraped: {jobs_scraped_count}")
         return jobs_scraped_count
 
     def _make_request(self, url):
@@ -119,22 +111,17 @@ class JobBoardScraper(ABC):
             res = requests.get(url)
             if res.status_code == 429:  # Too Many Requests
                 retry_after = 1.05 * float(res.headers.get("Retry-After", 5))
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print_error(
-                    f"{current_time} - Rate limited. Retrying after {retry_after} seconds..."
-                )
+                logger.error(f"Rate limited. Retrying after {retry_after} seconds...")
                 time.sleep(retry_after)
                 res = requests.get(url)
 
             if res.status_code != 200:
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print_error(f"{current_time} - Error: {res.status_code}")
+                logger.error(f"Error: {res.status_code}")
                 return None
 
             return res
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print_error(f"{current_time} - Request error: {e}")
+            logger.error(f"Request error: {e}")
             return None
 
 
