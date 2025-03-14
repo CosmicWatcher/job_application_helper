@@ -11,14 +11,14 @@ def _get_current_time():
 
 def info(message):
     current_time = _get_current_time()
-    print(f"\033[92m[INFO] {current_time} - {message}\033[00m")
+    print(f"\033[92m[INFO]\t{current_time} - {message}\033[00m")
 
 
 def warn(message):
     current_time = _get_current_time()
-    print(f"\033[93m[WARNING] {current_time} - {message}\033[00m")
+    print(f"\033[93m[WARN]\t{current_time} - {message}\033[00m")
 
 
 def error(message):
     current_time = _get_current_time()
-    print(f"\033[91m[ERROR] {current_time} - {message}\033[00m")
+    print(f"\033[91m[ERROR]\t{current_time} - {message}\033[00m")
