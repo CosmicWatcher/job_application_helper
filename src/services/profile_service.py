@@ -30,10 +30,28 @@ def get_application_stats():
             app_date = datetime.fromisoformat(job["time_applied"]).date().isoformat()
             daily_applications[app_date] += 1
 
+    # Fill in missing dates with zero counts
+    today = datetime.now().date()
+    # If we have applications, find the earliest date, otherwise use 14 days ago
+    if daily_applications:
+        earliest_date = min(
+            datetime.fromisoformat(date).date() for date in daily_applications.keys()
+        )
+    else:
+        earliest_date = today - timedelta(days=14)
+
+    # Create a complete date range
+    all_dates = {}
+    current_date = earliest_date
+    while current_date <= today:
+        date_str = current_date.isoformat()
+        all_dates[date_str] = daily_applications.get(date_str, 0)
+        current_date += timedelta(days=1)
+
     # Convert to sorted list of dicts
     daily_apps_list = [
         {"date": date, "count": count}
-        for date, count in sorted(daily_applications.items(), reverse=True)
+        for date, count in sorted(all_dates.items(), reverse=True)
     ]
 
     # Recent applications (last 10)
@@ -45,7 +63,7 @@ def get_application_stats():
         1
         for job in applied_jobs
         if job["time_applied"]
-        and datetime.fromisoformat(job["time_applied"]).date() >= seven_days_ago
+        and datetime.fromisoformat(job["time_applied"]).date() > seven_days_ago
     )
 
     application_rate = round(recent_count / 7, 2)  # Average applications per day

@@ -113,6 +113,9 @@ function renderDailyStats(dailyData) {
   // Create daily list
   const dailyList = document.querySelector("#daily-list");
   dailyData.forEach((day) => {
+    // Skip days with no applications
+    if (day.count === 0) return;
+
     const item = document.createElement("div");
     item.className = "stat-item";
 
