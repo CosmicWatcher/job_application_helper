@@ -119,6 +119,6 @@ def run_scraping_process(time_period, location, keywords):
         # All done
         scraping_status["is_running"] = False
     except Exception as e:
-        logger.error(f"Error in scrape process: {str(e)}")
+        logger.error(f"Error in scrape process : {str(e)}")
         scraping_status["error"] = str(e)
         scraping_status["is_running"] = False

@@ -15,7 +15,7 @@ def mark_job_applied(job_id):
         logger.info(f"Marked job {job_id} as applied")
         return jsonify({"success": True})
     except Exception as e:
-        logger.error(f"Error marking job {job_id} as applied: {str(e)}")
+        logger.error(f"Error marking job {job_id} as applied : {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -27,7 +27,7 @@ def reject_job(job_id):
         logger.info(f"Marked job {job_id} as rejected")
         return jsonify({"success": True})
     except Exception as e:
-        logger.error(f"Error rejecting job {job_id}: {str(e)}")
+        logger.error(f"Error rejecting job {job_id} : {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -39,5 +39,5 @@ def show_jobs():
         jobs = job_service.get_job_list(days_ago=days_ago)
         return render_template("jobs.html", jobs=jobs)
     except Exception as e:
-        logger.error(f"Error showing jobs: {str(e)}")
+        logger.error(f"Error showing jobs : {str(e)}")
         return f"Error: {str(e)}", 500

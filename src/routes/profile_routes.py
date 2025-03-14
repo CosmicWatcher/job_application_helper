@@ -19,5 +19,5 @@ def get_profile_stats():
         stats = profile_service.get_application_stats()
         return jsonify(stats)
     except Exception as e:
-        logger.error(f"Error fetching profile stats: {str(e)}")
+        logger.error(f"Error fetching profile stats : {str(e)}")
         return jsonify({"error": str(e)}), 500

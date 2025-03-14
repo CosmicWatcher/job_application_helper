@@ -29,7 +29,7 @@ def get_resume_data():
         jobs = resume_service.parse_resume_latex(RESUME_PATH)
         return jsonify({"success": True, "jobs": jobs})
     except Exception as e:
-        logger.error(f"Error getting resume data: {str(e)}")
+        logger.error(f"Error getting resume data : {str(e)}")
         return jsonify({"success": False, "error": str(e)})
 
 
@@ -40,7 +40,7 @@ def generate_resume():
     """
     try:
         if not os.path.exists(RESUME_PATH):
-            logger.error("Error: resume.tex file not found")
+            logger.error("Error : resume.tex file not found")
             return jsonify(
                 {
                     "success": False,
@@ -58,9 +58,9 @@ def generate_resume():
         # Create a URL for the PDF file
         pdf_url = url_for("static", filename="resume.pdf")
 
-        logger.info(f"Generated PDF at: {pdf_path}, URL: {pdf_url}")
+        logger.info(f"Generated PDF at : {pdf_path}, URL: {pdf_url}")
 
         return jsonify({"success": True, "pdf_path": pdf_url})
     except Exception as e:
-        logger.error(f"Error generating resume: {str(e)}")
+        logger.error(f"Error generating resume : {str(e)}")
         return jsonify({"success": False, "error": str(e)})

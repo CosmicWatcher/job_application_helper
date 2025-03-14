@@ -22,7 +22,7 @@ def parse_resume_latex(resume_path):
         r"\\section\*\{Experience\}(.*?)\\section\*", content, re.DOTALL
     )
     if not experience_section:
-        logger.error("Error: Could not find Experience section in resume.tex")
+        logger.error("Error : Could not find Experience section in resume.tex")
         return []
 
     experience_content = experience_section.group(1)
@@ -75,7 +75,7 @@ def generate_resume_pdf(resume_path, selected_items, job_id):
                 selected_job_items[job_title] = []
             selected_job_items[job_title].append(item)
 
-    logger.info(f"Parsed selected job items: {selected_job_items}")
+    logger.info(f"Parsed selected job items : {selected_job_items}")
 
     # Find the Experience section
     experience_section = re.search(
@@ -176,9 +176,9 @@ def generate_resume_pdf(resume_path, selected_items, job_id):
         static_pdf_path = os.path.join(static_dir, "resume.pdf")
         if not os.path.exists(static_pdf_path):
             os.symlink(pdf_path, static_pdf_path)
-            logger.info(f"PDF symlink created at: {static_pdf_path}")
+            logger.info(f"PDF symlink created at : {static_pdf_path}")
 
-        logger.info(f"PDF generated at: {pdf_path}")
+        logger.info(f"PDF generated at : {pdf_path}")
 
         return static_pdf_path
 

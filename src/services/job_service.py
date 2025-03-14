@@ -48,7 +48,7 @@ def analyze_jobs(scraping_status=None):
 
         try:
             rating = get_rating(ai_client, rating_instruct, description)
-            logger.info(f"Rating job {id}: {rating}")
+            logger.info(f"Rating job {id} : {rating}")
             db.update_job_rating(id, rating)
 
             if rating >= JOB_RATING_THRESHOLD and job["suggestions"] is None:
@@ -69,12 +69,12 @@ def analyze_jobs(scraping_status=None):
             logger.info(f"Analyzed job {jobs_analyzed_count}/{total_jobs_to_analyze}")
 
         except Exception as e:
-            logger.error(f"Error rating or getting suggestions for job {id}: {e}")
+            logger.error(f"Error rating or getting suggestions for job {id} : {e}")
 
     if scraping_status and scraping_status.get("stop_analysis"):
         logger.info(f"Analysis stopped by user. Analyzed {jobs_analyzed_count} jobs")
     else:
-        logger.info(f"Completed analysis. Total jobs analyzed: {jobs_analyzed_count}")
+        logger.info(f"Completed analysis. Total jobs analyzed : {jobs_analyzed_count}")
 
     return jobs_analyzed_count
 

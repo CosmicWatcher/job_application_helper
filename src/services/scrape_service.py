@@ -95,14 +95,14 @@ class JobBoardScraper(ABC):
                     scraping_status["jobs_scraped"] = jobs_scraped_count
                 logger.info(f"Scraped job {jobs_scraped_count}/{len(jobs)}")
             except Exception as e:
-                logger.error(f"Error saving job {job_id}: {e}")
+                logger.error(f"Error saving job {job_id} : {e}")
                 jobs_failed_count += 1
                 if scraping_status is not None:
                     scraping_status["total_jobs_to_scrape"] = (
                         len(jobs) - jobs_failed_count
                     )
 
-        logger.info(f"Completed scraping. Total jobs scraped: {jobs_scraped_count}")
+        logger.info(f"Completed scraping. Total jobs scraped : {jobs_scraped_count}")
         return jobs_scraped_count
 
     def _make_request(self, url):
@@ -116,12 +116,12 @@ class JobBoardScraper(ABC):
                 res = requests.get(url)
 
             if res.status_code != 200:
-                logger.error(f"Error: {res.status_code}")
+                logger.error(f"Error : {res.status_code}")
                 return None
 
             return res
         except Exception as e:
-            logger.error(f"Request error: {e}")
+            logger.error(f"Request error : {e}")
             return None
 
 
