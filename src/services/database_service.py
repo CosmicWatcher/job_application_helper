@@ -75,6 +75,14 @@ class Database:
         self.cursor.execute("UPDATE jobs SET rating = ? WHERE id = ?", (rating, job_id))
         self.connection.commit()
 
+    def reject_job(self, job_id):
+        """Descrease the rating for a job"""
+        self.cursor.execute(
+            "UPDATE jobs SET rating = CAST(0.85*rating AS INTEGER) WHERE id = ?",
+            (job_id,),
+        )
+        self.connection.commit()
+
     def update_job_suggestions(self, job_id, suggestions):
         """Update the suggestions for a job"""
         self.cursor.execute(

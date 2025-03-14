@@ -89,6 +89,6 @@ def get_job_list(days_ago=3):
     return db.get_job_list(days_ago=days_ago)
 
 
-def set_rating(job_id, rating):
+def reject_job(job_id):
     db = Database()
-    db.update_job_rating(job_id, rating)
+    db.reject_job(job_id)

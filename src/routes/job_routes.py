@@ -22,7 +22,7 @@ def mark_job_applied(job_id):
 @job_bp.route("/reject_job/<int:job_id>", methods=["POST"])
 def reject_job(job_id):
     try:
-        job_service.set_rating(job_id, 0)
+        job_service.reject_job(job_id)
 
         logger.info(f"Marked job {job_id} as rejected")
         return jsonify({"success": True})
