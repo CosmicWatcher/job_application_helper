@@ -89,6 +89,11 @@ def get_job_list(days_ago=3):
     return db.get_job_list(days_ago=days_ago)
 
 
-def reject_job(job_id):
+def downrate_job(job_id):
     db = Database()
-    db.reject_job(job_id)
+    db.downrate_job(job_id)
+
+
+def delete_job(job_id):
+    db = Database()
+    db.delete_job(job_id)

@@ -12,11 +12,19 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentJobId = null;
   let currentExternalId = null;
 
-  // Add event listeners for reject buttons
-  document.querySelectorAll(".reject-job-btn").forEach((button) => {
+  // Add event listeners for downrate buttons
+  document.querySelectorAll(".downrate-job-btn").forEach((button) => {
     button.addEventListener("click", function () {
       const jobId = this.getAttribute("data-job-id");
-      rejectJob(jobId);
+      downrateJob(jobId);
+    });
+  });
+
+  // Add event listeners for delete buttons
+  document.querySelectorAll(".delete-job-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const jobId = this.getAttribute("data-job-id");
+      deleteJob(jobId);
     });
   });
 
@@ -69,36 +77,69 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   };
 
-  // Function to reject a job
-  window.rejectJob = function (jobId) {
+  // Function to downrate a job
+  window.downrateJob = function (jobId) {
     // Get the job element
     const jobElement = document.getElementById(`job-${jobId}`);
 
-    // Add the rejected class to the job element
+    // Add the downrated class to the job element
     if (jobElement) {
-      jobElement.classList.add("rejected");
+      jobElement.classList.add("downrated");
     }
 
-    // Send the request to mark the job as rejected
-    fetch(`/reject_job/${jobId}`, {
+    // Send the request to mark the job as downrated
+    fetch(`/downrate_job/${jobId}`, {
       method: "POST",
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
           console.log(
-            `${new Date().toLocaleString()} - Job ${jobId} marked as rejected`,
+            `${new Date().toLocaleString()} - Job ${jobId} marked as downrated`,
           );
         } else {
           console.error(
-            `${new Date().toLocaleString()} - Error marking job ${jobId} as rejected:`,
+            `${new Date().toLocaleString()} - Error marking job ${jobId} as downrated:`,
             data.error,
           );
         }
       })
       .catch((error) => {
         console.error(
-          `${new Date().toLocaleString()} - Error marking job ${jobId} as rejected:`,
+          `${new Date().toLocaleString()} - Error marking job ${jobId} as downrated:`,
+          error,
+        );
+      });
+  };
+
+  // Function to delete a job
+  window.deleteJob = function (jobId) {
+    // Get the job element
+    const jobElement = document.getElementById(`job-${jobId}`);
+
+    // Add the downrated class to the job element
+    if (jobElement) {
+      jobElement.classList.add("deleted");
+    }
+
+    // Send the request to mark the job as downrated
+    fetch(`/delete_job/${jobId}`, {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          console.log(`${new Date().toLocaleString()} - Job ${jobId} deleted`);
+        } else {
+          console.error(
+            `${new Date().toLocaleString()} - Error deleting job ${jobId}:`,
+            data.error,
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(
+          `${new Date().toLocaleString()} - Error deleting job ${jobId}:`,
           error,
         );
       });

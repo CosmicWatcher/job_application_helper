@@ -83,21 +83,27 @@
         class="job {% if job['applied'] %}applied{% endif %}"
       >
         <div class="job-header">
-          <div class="job-header-rating">
-            <h5 class="id">
-              ID: {{ job['id'] }} &ndash; {{ job['external_id'] }}
-            </h5>
-            <h3 class="rating">
-              Rating: {{ job['rating'] if job['rating'] is not none else "Not
-              rated" }}
-            </h3>
+          <div class="job-header-rating-container">
+            <button class="downrate-job-btn" data-job-id="{{ job.id }}">
+              <p>downrate</p>
+              <p style="font-size: 2rem">&#8681;</p>
+            </button>
+            <div class="job-header-rating">
+              <h5 class="id">
+                ID: {{ job['id'] }} &ndash; {{ job['external_id'] }}
+              </h5>
+              <h3 class="rating">
+                Rating: {{ job['rating'] if job['rating'] is not none else "Not
+                rated" }}
+              </h3>
+            </div>
           </div>
           <h3 class="title">{{ job['title'] }}</h3>
           <h3 class="company">{{ job['company'] }}</h3>
         </div>
         <div class="job-actions">
-          <button class="reject-job-btn" data-job-id="{{ job.id }}">
-            Reject Job
+          <button class="delete-job-btn" data-job-id="{{ job.id }}">
+            DELETE
           </button>
           <button
             class="edit-resume-btn"
@@ -131,7 +137,8 @@
           </div>
         </div>
         <span class="applied-tag">Applied</span>
-        <span class="rejected-tag">Rejected</span>
+        <span class="downrated-tag">downrated</span>
+        <span class="deleted-tag">deleted</span>
       </div>
       {% endfor %}
     </div>

@@ -75,7 +75,7 @@ class Database:
         self.cursor.execute("UPDATE jobs SET rating = ? WHERE id = ?", (rating, job_id))
         self.connection.commit()
 
-    def reject_job(self, job_id):
+    def downrate_job(self, job_id):
         """Descrease the rating for a job"""
         self.cursor.execute(
             "UPDATE jobs SET rating = CAST(0.85*rating AS INTEGER) WHERE id = ?",
@@ -104,4 +104,9 @@ class Database:
             "INSERT INTO jobs (external_id, description, posted_time, title, company) VALUES (?, ?, ?, ?, ?)",
             (external_id, description, posted_time, title, company),
         )
+        self.connection.commit()
+
+    def delete_job(self, job_id):
+        """Delete a job from the database"""
+        self.cursor.execute("DELETE FROM jobs WHERE id = ?", (job_id,))
         self.connection.commit()

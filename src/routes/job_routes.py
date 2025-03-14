@@ -19,15 +19,27 @@ def mark_job_applied(job_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-@job_bp.route("/reject_job/<int:job_id>", methods=["POST"])
-def reject_job(job_id):
+@job_bp.route("/downrate_job/<int:job_id>", methods=["POST"])
+def downrate_job(job_id):
     try:
-        job_service.reject_job(job_id)
+        job_service.downrate_job(job_id)
 
-        logger.info(f"Marked job {job_id} as rejected")
+        logger.info(f"Downrated job {job_id}")
         return jsonify({"success": True})
     except Exception as e:
-        logger.error(f"Error rejecting job {job_id} : {str(e)}")
+        logger.error(f"Error downrating job {job_id} : {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@job_bp.route("/delete_job/<int:job_id>", methods=["POST"])
+def delete_job(job_id):
+    try:
+        job_service.delete_job(job_id)
+
+        logger.info(f"Deleted job {job_id}")
+        return jsonify({"success": True})
+    except Exception as e:
+        logger.error(f"Error deleting job {job_id} : {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
 
 

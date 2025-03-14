@@ -16,14 +16,21 @@
   opacity: 0.7;
 }
 
-.job.rejected {
+.job.downrated {
+  padding: 5px 15px;
+  background-color: #fff7ee;
+  opacity: 0.7;
+}
+
+.job.deleted {
   padding: 5px 15px;
   background-color: #ffeeee;
   opacity: 0.7;
 }
 
 .job.applied .description,
-.job.rejected .description {
+.job.downrated .description,
+.job.deleted .description {
   display: none;
 }
 
@@ -51,7 +58,7 @@
 
 .job-header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   gap: 10rem;
   margin-top: 0;
@@ -67,6 +74,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+
+.job-header-rating-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .job-header-title {
@@ -99,7 +114,30 @@
   background-color: #b09300;
 }
 
-.reject-job-btn {
+.downrate-job-btn {
+  background-color: #9d622a;
+  color: white;
+  padding: 0.6rem 0.5rem 0.1rem 0.4rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.downrate-job-btn p {
+  margin: 0;
+}
+
+.downrate-job-btn:hover {
+  background-color: #88501f;
+}
+
+.delete-job-btn {
   background-color: #9d352a;
   color: white;
   padding: 12px 20px;
@@ -108,9 +146,13 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.reject-job-btn:hover {
+.delete-job-btn:hover {
   background-color: #882a1f;
 }
 
@@ -136,7 +178,14 @@
   margin-top: 10px;
 }
 
-.rejected-tag {
+.downrated-tag {
+  display: none;
+  color: #e7b43c;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.deleted-tag {
   display: none;
   color: #e74c3c;
   font-style: italic;
@@ -147,7 +196,11 @@
   display: inline;
 }
 
-.job.rejected .rejected-tag {
+.job.downrated .downrated-tag {
+  display: inline;
+}
+
+.job.deleted .deleted-tag {
   display: inline;
 }
 
@@ -204,7 +257,11 @@
   display: none;
 }
 
-.job.rejected .job-content {
+.job.downrated .job-content {
+  display: none;
+}
+
+.job.deleted .job-content {
   display: none;
 }
 
@@ -212,7 +269,11 @@
   display: none;
 }
 
-.job.rejected .job-actions {
+.job.downrated .job-actions {
+  display: none;
+}
+
+.job.deleted .job-actions {
   display: none;
 }
 
