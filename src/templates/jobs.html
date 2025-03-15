@@ -82,12 +82,12 @@
         id="job-{{ job['id'] }}"
         class="job {% if job['applied'] %}applied{% endif %}"
       >
-        <div class="job-header">
-          <div class="job-header-rating-container">
-            <button class="downrate-job-btn" data-job-id="{{ job.id }}">
-              <p>downrate</p>
-              <p style="font-size: 2rem">&#8681;</p>
-            </button>
+        <div class="job-header-container">
+          <button class="downrate-job-btn" data-job-id="{{ job.id }}">
+            <p>downrate</p>
+            <p style="font-size: 2rem">&#8681;</p>
+          </button>
+          <div class="job-header">
             <div class="job-header-rating">
               <h5 class="id">
                 ID: {{ job['id'] }} &ndash; {{ job['external_id'] }}
@@ -97,9 +97,17 @@
                 rated" }}
               </h3>
             </div>
+            <h3 class="title">{{ job['title'] }}</h3>
+            <h3 class="company">{{ job['company'] }}</h3>
           </div>
-          <h3 class="title">{{ job['title'] }}</h3>
-          <h3 class="company">{{ job['company'] }}</h3>
+          <button
+            class="mark-applied-btn"
+            id="mark-applied-btn"
+            data-job-id="{{ job.id }}"
+          >
+            <p>Applied</p>
+            <p style="font-size: 1.5rem">&#10003;</p>
+          </button>
         </div>
         <div class="job-actions">
           <button class="delete-job-btn" data-job-id="{{ job.id }}">
@@ -111,13 +119,6 @@
             data-external-id="{{ job.external_id }}"
           >
             Edit Resume
-          </button>
-          <button
-            class="mark-applied-btn"
-            id="mark-applied-btn"
-            data-job-id="{{ job.id }}"
-          >
-            Mark Applied
           </button>
           <a
             href="https://www.linkedin.com/jobs/view/{{ job.external_id }}"
