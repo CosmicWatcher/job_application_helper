@@ -3,11 +3,13 @@
 __pycache__/
 models/
 logs/
+
 resume/tmp*
 resume/archive/*
 resume/resume.tex
 resume.pdf
+
 .env
 prompts.json
-src/tmp.py
 blacklists.json
+src/tmp.py

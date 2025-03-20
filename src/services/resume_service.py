@@ -162,7 +162,7 @@ def generate_resume_pdf(resume_path, selected_items, job_id):
             raise Exception("Error converting LaTeX to PDF: " + result.stderr)
 
         # Path to the generated PDF
-        pdf_path = os.path.join(resume_root, "tmp.pdf")
+        pdf_tmp_path = os.path.join(resume_root, "tmp.pdf")
 
         # Ensure the static directory exists
         static_dir = os.path.join(
@@ -172,13 +172,16 @@ def generate_resume_pdf(resume_path, selected_items, job_id):
         )
         os.makedirs(static_dir, exist_ok=True)
 
+        # Copy the generated PDF to resume.pdf in the same directory
+        pdf_path = os.path.join(resume_root, "resume.pdf")
+        shutil.move(pdf_tmp_path, pdf_path)
+        logger.info(f"PDF generated at : {pdf_path}")
+
         # Create a symlink to the PDF in the static directory for serving
         static_pdf_path = os.path.join(static_dir, "resume.pdf")
         if not os.path.exists(static_pdf_path):
             os.symlink(pdf_path, static_pdf_path)
             logger.info(f"PDF symlink created at : {static_pdf_path}")
-
-        logger.info(f"PDF generated at : {pdf_path}")
 
         return static_pdf_path
 
